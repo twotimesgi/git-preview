@@ -38,17 +38,19 @@ if (isset($_GET["url"])){
     $newLinks[] = $base_url . "master/" . $linkSrc;
     }
 
-    // /"[^"]*"/i
+    $html = str_replace('</head>', '<css-here></css-here> </head>', $html);
 
     for ($i = 0; $i <= count($extractedLinks) - 1; $i++) {
-        if (str_contains($extractedLinks[$i],"http://") or str_contains($extractedLinks[$i],"https://"))  {
-             continue;
+        if (str_contains($extractedLinks[$i],"http://") or str_contains($extractedLinks[$i],"https://") or str_contains($extractedLinks[$i],"png"))  {
+
+        }else{
+            $css = file_get_contents($newLinks[$i]);
+            $css = preg_replace('/(?:\.\.\/)+(.*?\))/', $base_url. "master/" . '$1', $css);
+            $html = str_replace('<css-here></css-here> </head>','<style>'.$css.'</style> <css-here></css-here> </head>', $html);
+            $html = str_replace($extractedLinks[$i],"#", $html);
         }
-         $html = str_replace($extractedLinks[$i], $newLinks[$i], $html);
-         $css = file_get_contents($newLinks[$i]);
-         $css = preg_replace('/(?:\.\.\/)+(.*?\))/', $base_url. "master/" . '$1', $css);
-         echo "<style>".$css."</style>";
     }
+
     echo $html;
 }
 
