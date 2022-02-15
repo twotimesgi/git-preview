@@ -6,7 +6,7 @@ if (isset($_GET["url"])){
     $base_url = str_replace($s[count($s) - 2]."/".$s[count($s) - 1],"", $raw);
     $html = file_get_contents($raw);
 
-    //IMG
+    //HTML IMAGES
     $htmlDom = new DOMDocument;
     @$htmlDom->loadHTML($html);
     $links = $htmlDom->getElementsByTagName('img');
@@ -15,17 +15,19 @@ if (isset($_GET["url"])){
 
     foreach($links as $link){
     $linkSrc = $link->getAttribute('src');
-    $extractedLinks[] = $linkSrc;
-    $newLinks[] = $base_url . "master/" . $linkSrc;
+        if(array_search($linkSrc, $extractedLinks) == false){
+        $extractedLinks[] = $linkSrc;
+        $newLinks[] = $base_url . "master/" . $linkSrc;
+        }
     }
 
     for ($i = 0; $i <= count($extractedLinks) - 1; $i++) {
         $html = str_replace($extractedLinks[$i], $newLinks[$i], $html);
     }
-    
-    //IMG
-    $htmlDom = new DOMDocument;
-    @$htmlDom->loadHTML($html);
+
+    //CSS
+    $newLinks = [];
+    $linkSrc = [];
     $links = $htmlDom->getElementsByTagName('link');
     $extractedLinks = array();
     $newLinks = array();
@@ -36,17 +38,18 @@ if (isset($_GET["url"])){
     $newLinks[] = $base_url . "master/" . $linkSrc;
     }
 
+    // /"[^"]*"/i
+
     for ($i = 0; $i <= count($extractedLinks) - 1; $i++) {
         if (str_contains($extractedLinks[$i],"http://") or str_contains($extractedLinks[$i],"https://"))  {
-            continue;
+             continue;
         }
-        $html = str_replace($extractedLinks[$i], $newLinks[$i], $html);
-        echo "<style>".file_get_contents($newLinks[$i])."</style>";
+         $html = str_replace($extractedLinks[$i], $newLinks[$i], $html);
+         $css = file_get_contents($newLinks[$i]);
+         $css = preg_replace('/(?:\.\.\/)+(.*?\))/', $base_url. "master/" . '$1', $css);
+         echo "<style>".$css."</style>";
     }
-
     echo $html;
-
 }
-
 
 ?>

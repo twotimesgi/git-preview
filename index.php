@@ -49,7 +49,7 @@
                     <div class="col-12">
                         <div class="card p-4">
                             <p>
-                                This website serves raw files directly from various source code hosting services with proper Content-Type headers.                          
+                                This website serves raw files directly from Github with proper Content-Type headers.                          
                             </p>
                             <form method="GET" action="preview.php">
                             <div class="input-group mb-3">
