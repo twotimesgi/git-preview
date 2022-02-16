@@ -40,6 +40,16 @@
                 </div>
             </div> 
         </nav>
+        <div class="w-100  bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-light text-center p-1 mb-0">Made for Booleaners by a Booleaner💙
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
     </header>
     <main class="pb-5">
         <section class="pt-5">
@@ -110,16 +120,5 @@
             </div>
         </section>
     </main>
-    <footer class="w-100  bg-dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <p class="text-light text-center p-4 mb-0">Made for Booleaners by a Booleaner💙
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
 </body>
-
 </html>
